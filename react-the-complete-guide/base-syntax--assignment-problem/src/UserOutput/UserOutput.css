@@ -1,0 +1,10 @@
+.UserOutput {
+    background-color: #555555;
+    color: white;
+    font-family: cursive;
+    width: 30%;
+    /* display: inherit; */
+    margin: 2% auto;
+    padding: 1%;
+    border-radius: 5px;
+}
