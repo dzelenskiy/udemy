@@ -11,7 +11,7 @@ class App extends Component {
   }
 
   userNameInputHandler = (event) => {
-    console.log('userNameInputHandler was triggered')
+    //console.log('userNameInputHandler was triggered')
     this.setState({userName: event.target.value})
   }
 
@@ -27,6 +27,9 @@ class App extends Component {
         <div style={this.style}>
           <UserInput userName={this.state.userName} changed={this.userNameInputHandler} />
           <UserOutput userName={this.state.userName} />
+          <UserOutput userName='Bibbidi' />
+          <UserOutput userName='Bobbidi' />
+          <UserOutput userName='Boo' />
         </div>
         <div style={this.style}>
           <ol>

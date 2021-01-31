@@ -5,8 +5,9 @@ class UserOutput extends Component {
     render() {
         return (
             <div className="UserOutput">
-                <p>Hi, I am UserOutput paragraph #1. My name is: {this.props.userName}</p>
-                <p>Hi, I am UserOutput paragraph #2</p>
+                <p>My name is: {this.props.userName}</p>
+                <p>This is {this.props.userName}'s' first paragraph</p>
+                <p>This is {this.props.userName}'s' second paragraph</p>
             </div>
         );
     }
