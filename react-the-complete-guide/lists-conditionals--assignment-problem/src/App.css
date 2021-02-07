@@ -36,3 +36,39 @@
     transform: rotate(360deg);
   }
 }
+
+h1 {
+  color: darkslategrey;
+}
+
+.instructions-div {
+  text-align: left;
+  background-color: lightgray;
+  max-width: 75%;
+  margin: 10% auto;
+  padding: 3%;
+  color: white;
+  font-weight: bold;
+  border: 2px solid lightslategrey;
+  border-radius: 5px;
+}
+
+.instructions-div h2 {
+  color: lightslategrey;
+  text-align: center;
+  margin-bottom: 5%;
+}
+
+.instructions-div li {
+  margin-bottom: 2%;
+}
+
+.instructions-div p {
+  text-align: center;
+  color: lightslategrey;
+  margin-top: 5%;
+}
+
+#user-input-box {
+  margin: 0 2%;
+}
