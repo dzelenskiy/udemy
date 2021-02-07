@@ -1,9 +1,24 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import ValidationComponent from './ValidationComponent/ValidationComponent.js';
 
-function App() {
-  return (
+class App extends Component {
+
+  state = {
+    inputLength: 0
+  }
+
+  countInputLength = (event) => {  
+    this.setState({inputLength: event.target.value.length})
+  }
+
+  render() {
+    return(
     <div className="App">
+        <h1>List Conditionals Assignment Problem</h1>
+        <input type="text" onChange={(event) => this.countInputLength(event)} />
+        <p>{this.state.inputLength}</p>
+        <ValidationComponent textLength={this.state.inputLength} />
         <ol>
           <li>Create an input field (in App component) with a change listener which outputs the length of the entered text below it (e.g. in a paragraph).</li>
           <li>Create a new component (=> ValidationComponent) which receives the text length as a prop</li>
@@ -14,7 +29,8 @@ function App() {
         </ol>
         <p>Hint: Keep in mind that JavaScript strings are basically arrays!</p>
     </div>
-  );
+    );
+  }
 }
 
 export default App;
