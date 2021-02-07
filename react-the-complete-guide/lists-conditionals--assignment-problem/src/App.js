@@ -24,11 +24,9 @@ class App extends Component {
   }
 
   deleteCharHandler = (index) => {
-     console.log("deleteCHarHandler called with index: " + index);
      const newCharArray = [...this.state.charArray];
      newCharArray.splice(index, 1);
      this.setState({charArray: newCharArray});
-     console.log("charArray is now: " + this.state.charArray);
   }
 
   charComponentDiv = null;
@@ -56,22 +54,16 @@ class App extends Component {
       this.state.inputLength = "";
     }
 
-
-    //textInputString = this.state.charArray.join('');
-
-
     return(
     <div className="App">
         <h1>List Conditionals Assignment Problem</h1>
-        <br />
-        {this.charComponentDiv}
-        <br />
-        <span>{this.state.inputLength}</span>
+        <ValidationComponent textLength={this.state.inputLength} />
         <input type="text"
           id="user-input-box" 
           value={this.textInputString}
           onChange={(event) => this.textInputHandler(event)} />
-        <ValidationComponent textLength={this.state.inputLength} />
+        <span id="char-counter">{this.state.inputLength}</span> 
+        {this.charComponentDiv}
         <div className="instructions-div">
           <h2>Instructions</h2>
           <ol>

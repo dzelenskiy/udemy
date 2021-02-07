@@ -4,7 +4,9 @@ import reactDom from 'react-dom';
 class ValidationComponent extends Component {
 
     validationStyle = {
-        color: 'red'
+        color: 'red',
+        marginBottom: '1%',
+        minHeight: '1.2rem'
     }
 
     render() {
@@ -20,9 +22,9 @@ class ValidationComponent extends Component {
         }
 
         return (
-            <span style = {this.validationStyle}>
+            <div style = {this.validationStyle}>
                 {this.validationMessage}
-            </span>
+            </div>
         );
     }
 }
