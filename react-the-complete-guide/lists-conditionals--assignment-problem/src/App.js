@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import ValidationComponent from './ValidationComponent/ValidationComponent';
+import Validation from './Validation/Validation';
 import CharComponent from './CharComponent/CharComponent';
 
 class App extends Component {
@@ -57,7 +57,7 @@ class App extends Component {
     return(
     <div className="App">
         <h1>List Conditionals Assignment Problem</h1>
-        <ValidationComponent textLength={this.state.inputLength} />
+        <Validation textLength={this.state.inputLength} />
         <input type="text"
           id="user-input-box" 
           value={this.textInputString}
