@@ -11,45 +11,50 @@ const app = props => {
       ]
     });
 
-    const [otherState, setOtherState] = useState('some other value');
+  const [otherState, setOtherState] = useState('some other value');
 
-    console.log(personsState, otherState);
+  const [showPersons, setShowPersons] = useState(false);
 
-    const switchNameHandler = (newName) => {
-      setPersonsState({
-        persons: [
-          { name: newName, age: 28 },
-          { name: 'Manu', age: 29 },
-          { name: 'Stephanie', age: 27 }
-        ]
-      });
-    };
+  console.log(personsState, otherState);
+
+  const switchNameHandler = (newName) => {
+    setPersonsState({
+      persons: [
+        { name: newName, age: 28 },
+        { name: 'Manu', age: 29 },
+        { name: 'Stephanie', age: 27 }
+      ]
+    });
+  };
     
-    const nameChangedHandler = (event) => {
-      setPersonsState({
-        persons: [
-          { name: 'Max', age: 28 },
-          { name: event.target.value, age: 29 },
-          { name: 'Stephanie', age: 26 }
-        ]
-      });      
-    }
+  const nameChangedHandler = (event) => {
+    setPersonsState({
+      persons: [
+        { name: 'Max', age: 28 },
+        { name: event.target.value, age: 29 },
+        { name: 'Stephanie', age: 26 }
+      ]
+    });      
+  }
 
-    const style = {
-      backgroundColor: 'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer'
-    };
+  const style = {
+    backgroundColor: 'white',
+    font: 'inherit',
+    border: '1px solid blue',
+    padding: '8px',
+    cursor: 'pointer'
+  };
 
-    return (
-      <div className="App">
-        <h1>Hi, I'm a React App</h1>
-        <p>This is really working!</p>
-        <button 
-          style={style}
-          onClick={() => switchNameHandler('Maximilian!!')}>Switch Name</button>
+  const togglePersonsHandler = () => {
+    const doesShow = showPersons;
+    setShowPersons(!doesShow);
+  }
+
+  let persons = null;
+
+  if (showPersons) {
+    persons = (
+      <div>
         <Person 
           name={personsState.persons[0].name} 
           age={personsState.persons[0].age} 
@@ -66,9 +71,21 @@ const app = props => {
         <Person 
           name={personsState.persons[2].name} 
           age={personsState.persons[2].age} 
-        />
-      </div>
-    );
+        />          
+      </div> 
+    );  
+  }
+
+  return (
+    <div className="App">
+      <h1>Hi, I'm a React App</h1>
+      <p>This is really working!</p>
+      <button 
+        style={style}
+        onClick={togglePersonsHandler}>Toggle Persons</button>
+        {persons}
+    </div>
+  );
 }
 
 export default app;
