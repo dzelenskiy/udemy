@@ -3,39 +3,16 @@ import './App.css';
 import Person from './Person/Person';
 
 const app = props => {
+
   const [ personsState, setPersonsState ] = useState({
       persons: [
-        { name: 'Max', age: 28 },
-        { name: 'Manu', age: 29 },
-        { name: 'Stephanie', age: 26}
+        { id: 'abc1', name: 'Max', age: 28 },
+        { id: 'def2', name: 'Manu', age: 29 },
+        { id: 'ghi3', name: 'Stephanie', age: 26}
       ]
     });
-
-  const [otherState, setOtherState] = useState('some other value');
 
   const [showPersons, setShowPersons] = useState(false);
-
-  console.log(personsState, otherState);
-
-  const switchNameHandler = (newName) => {
-    setPersonsState({
-      persons: [
-        { name: newName, age: 28 },
-        { name: 'Manu', age: 29 },
-        { name: 'Stephanie', age: 27 }
-      ]
-    });
-  };
-    
-  const nameChangedHandler = (event) => {
-    setPersonsState({
-      persons: [
-        { name: 'Max', age: 28 },
-        { name: event.target.value, age: 29 },
-        { name: 'Stephanie', age: 26 }
-      ]
-    });      
-  }
 
   const style = {
     backgroundColor: 'white',
@@ -44,6 +21,34 @@ const app = props => {
     padding: '8px',
     cursor: 'pointer'
   };
+
+  const nameChangedHandler = ( newName, id ) => {
+    const personIndex = personsState.persons.findIndex(p => {
+      return p.id === id;
+    });
+
+    //const person = Object.assign({}, personsState.persons[personsIndex]);
+    const person = {
+      ...personsState.persons[personIndex]
+    };
+
+    person.name = newName;
+
+    const persons = [...personsState.persons];
+    persons[personIndex] = person;
+
+    setPersonsState( {persons: persons});
+  }
+
+  const deletePersonHandler = (personIndex) => {
+    //copying array b/c setting equal to original
+    //only creates a pointer and is mutable
+    //const persons = personsState.persons.slice();
+    //using spread operator instead
+    const persons = [...personsState.persons];
+    persons.splice(personIndex, 1);
+    setPersonsState({persons: persons});
+  }
 
   const togglePersonsHandler = () => {
     const doesShow = showPersons;
@@ -55,23 +60,16 @@ const app = props => {
   if (showPersons) {
     persons = (
       <div>
-        <Person 
-          name={personsState.persons[0].name} 
-          age={personsState.persons[0].age} 
-        />
-
-        <Person 
-          name={personsState.persons[1].name} 
-          age={personsState.persons[1].age} 
-          click={switchNameHandler.bind(this, 'Max!')}
-          changed={nameChangedHandler}>
-            My Hobbies: Racing
-        </Person>
-
-        <Person 
-          name={personsState.persons[2].name} 
-          age={personsState.persons[2].age} 
-        />          
+        {
+          personsState.persons.map((person, index) => {
+            return <Person
+              click={() => deletePersonHandler(index)} 
+              name={person.name} 
+              age={person.age}
+              key={person.id}
+              changed={(event) => nameChangedHandler(event.target.value, person.id)} />
+          })
+        }       
       </div> 
     );  
   }
