@@ -1,6 +1,22 @@
 import React, { useState } from 'react';
 import './App.css';
 import Person from './Person/Person';
+//import Radium, { StyleRoot } from 'radium';
+//import styled from 'styled-components';
+
+// const StyledButton = styled.button`
+//   background-color: ${props => props.alt ? 'red' : 'green'};
+//   color: white;
+//   font: inherit;
+//   border: 1px solid blue;
+//   padding: 8px;
+//   cursor: pointer;
+
+//   &:hover {
+//     background-color: ${props => props.alt ? 'salmon' : 'lightgreen'};
+//     color: black;
+//   }
+// `;
 
 const app = props => {
 
@@ -13,14 +29,6 @@ const app = props => {
     });
 
   const [showPersons, setShowPersons] = useState(false);
-
-  const style = {
-    backgroundColor: 'white',
-    font: 'inherit',
-    border: '1px solid blue',
-    padding: '8px',
-    cursor: 'pointer'
-  };
 
   const nameChangedHandler = ( newName, id ) => {
     const personIndex = personsState.persons.findIndex(p => {
@@ -71,19 +79,36 @@ const app = props => {
           })
         }       
       </div> 
-    );  
+    ); 
+  }
+
+  const classes = [];
+  if (personsState.persons.length <= 2) {
+    classes.push('red');
+
+  }
+  if(personsState.persons.length <= 1) {
+    classes.push('bold');
   }
 
   return (
-    <div className="App">
-      <h1>Hi, I'm a React App</h1>
-      <p>This is really working!</p>
-      <button 
-        style={style}
-        onClick={togglePersonsHandler}>Toggle Persons</button>
+    //<StyleRoot>
+      <div className="App">
+        <h1>Hi, I'm a React App</h1>
+        <p className={classes.join(' ')}>This is really working!</p>
+        {/* <StyledButton 
+          alt={showPersons}  */}
+        <button
+          className="button"
+          onClick={togglePersonsHandler}>
+            Toggle Persons
+        </button>
+        {/* </StyledButton> */}
         {persons}
-    </div>
+      </div>
+    //</StyleRoot>
   );
 }
 
+//export default Radium(app);
 export default app;
