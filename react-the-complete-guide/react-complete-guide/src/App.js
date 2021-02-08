@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import './App.css';
+import classes from './App.css';
+//for scripts version 2+ use syntax below
+//import classes from './App.module.css';
 import Person from './Person/Person';
 //import Radium, { StyleRoot } from 'radium';
 //import styled from 'styled-components';
@@ -19,6 +21,8 @@ import Person from './Person/Person';
 // `;
 
 const app = props => {
+
+  let btnClass = '';
 
   const [ personsState, setPersonsState ] = useState({
       persons: [
@@ -79,27 +83,29 @@ const app = props => {
           })
         }       
       </div> 
-    ); 
+    );
+    
+    btnClass = classes.Red;
   }
 
-  const classes = [];
+  const assignedClasses = [];
   if (personsState.persons.length <= 2) {
-    classes.push('red');
+    assignedClasses.push(classes.Red);
 
   }
   if(personsState.persons.length <= 1) {
-    classes.push('bold');
+    assignedClasses.push(classes.Bold);
   }
 
   return (
     //<StyleRoot>
-      <div className="App">
+      <div className={classes.App}>
         <h1>Hi, I'm a React App</h1>
-        <p className={classes.join(' ')}>This is really working!</p>
+        <p className={assignedClasses.join(' ')}>This is really working!</p>
         {/* <StyledButton 
           alt={showPersons}  */}
         <button
-          className="button"
+          className={btnClass}
           onClick={togglePersonsHandler}>
             Toggle Persons
         </button>
