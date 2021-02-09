@@ -5,6 +5,7 @@ import classes from './App.css';
 import Person from './Person/Person';
 //import Radium, { StyleRoot } from 'radium';
 //import styled from 'styled-components';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 // const StyledButton = styled.button`
 //   background-color: ${props => props.alt ? 'red' : 'green'};
@@ -74,12 +75,13 @@ const app = props => {
       <div>
         {
           personsState.persons.map((person, index) => {
-            return <Person
-              click={() => deletePersonHandler(index)} 
-              name={person.name} 
-              age={person.age}
-              key={person.id}
-              changed={(event) => nameChangedHandler(event.target.value, person.id)} />
+            return <ErrorBoundary key={person.id}>
+              <Person
+                click={() => deletePersonHandler(index)} 
+                name={person.name} 
+                age={person.age}
+                changed={(event) => nameChangedHandler(event.target.value, person.id)} />
+              </ErrorBoundary>
           })
         }       
       </div> 
