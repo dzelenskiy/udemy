@@ -1,29 +1,17 @@
 import React, { useState } from 'react';
 import classes from './App.css';
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
+
 //for scripts version 2+ use syntax below
 //import classes from './App.module.css';
-import Person from './Person/Person';
+
+//import Person from '../components/Persons/Person/Person';
 //import Radium, { StyleRoot } from 'radium';
 //import styled from 'styled-components';
-import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
-
-// const StyledButton = styled.button`
-//   background-color: ${props => props.alt ? 'red' : 'green'};
-//   color: white;
-//   font: inherit;
-//   border: 1px solid blue;
-//   padding: 8px;
-//   cursor: pointer;
-
-//   &:hover {
-//     background-color: ${props => props.alt ? 'salmon' : 'lightgreen'};
-//     color: black;
-//   }
-// `;
+//import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
 
 const app = props => {
-
-  let btnClass = '';
 
   const [ personsState, setPersonsState ] = useState({
       persons: [
@@ -71,47 +59,19 @@ const app = props => {
   let persons = null;
 
   if (showPersons) {
-    persons = (
-      <div>
-        {
-          personsState.persons.map((person, index) => {
-            return <ErrorBoundary key={person.id}>
-              <Person
-                click={() => deletePersonHandler(index)} 
-                name={person.name} 
-                age={person.age}
-                changed={(event) => nameChangedHandler(event.target.value, person.id)} />
-              </ErrorBoundary>
-          })
-        }       
-      </div> 
-    );
-    
-    btnClass = classes.Red;
-  }
-
-  const assignedClasses = [];
-  if (personsState.persons.length <= 2) {
-    assignedClasses.push(classes.Red);
-
-  }
-  if(personsState.persons.length <= 1) {
-    assignedClasses.push(classes.Bold);
+    persons = <Persons 
+          persons={personsState.persons}
+          clicked={deletePersonHandler}
+          changed={nameChangedHandler} />;
   }
 
   return (
     //<StyleRoot>
       <div className={classes.App}>
-        <h1>Hi, I'm a React App</h1>
-        <p className={assignedClasses.join(' ')}>This is really working!</p>
-        {/* <StyledButton 
-          alt={showPersons}  */}
-        <button
-          className={btnClass}
-          onClick={togglePersonsHandler}>
-            Toggle Persons
-        </button>
-        {/* </StyledButton> */}
+        <Cockpit 
+          showPersons={showPersons}
+          persons={personsState.persons}
+          clicked={togglePersonsHandler} />
         {persons}
       </div>
     //</StyleRoot>
