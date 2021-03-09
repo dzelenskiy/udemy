@@ -1,6 +1,6 @@
 import React from 'react';
-
 import classes from './BuildControl.module.css';
+import PropTypes from 'prop-types';
 
 const buildControl = props => (
     <div className={classes.BuildControl}>
@@ -11,3 +11,10 @@ const buildControl = props => (
 );
 
 export default buildControl;
+
+buildControl.propTypes = {
+    label: PropTypes.string.isRequired,
+    added: PropTypes.func.isRequired,
+    removed: PropTypes.func.isRequired,
+    disabled: PropTypes.bool.isRequired
+};
