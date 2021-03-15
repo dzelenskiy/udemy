@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
 import './Blog.css';
 import Posts from './Posts/Posts';
-import NewPost from './NewPost/NewPost';
+
+// import NewPost from './NewPost/NewPost';
+// lazy loading example:
+import asyncComponent from '../../hoc/asyncComponent';
+const NewPost = asyncComponent(() => import('./NewPost/NewPost'));
 
 class Blog extends Component {
 
     state = {
-        auth: false
+        auth: true
     }
 
     render () {
