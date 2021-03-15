@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-import { Route, NavLink, Switch } from 'react-router-dom';
+import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
 import './Blog.css';
 import Posts from './Posts/Posts';
 import NewPost from './NewPost/NewPost';
 
 class Blog extends Component {
+
+    state = {
+        auth: false
+    }
 
     render () {
         return (
@@ -12,20 +16,23 @@ class Blog extends Component {
                 <header>
                     <nav>
                         <ul>
-                            <li><NavLink 
+                            <li>
+                                <NavLink 
                                     to="/posts/" exact 
                                     activeClassName="active"
                                     activeStyle={{
                                         textDecoration: 'underline'
                                     }}>
-                                        Posts
+                                    Posts
                                 </NavLink>
                             </li>
-                            <li><NavLink to={{
-                                    pathname: '/new-post',
-                                    hash: '#submit',
-                                    search: '?quick-submit=true'
-                                }}>
+                            <li>
+                                <NavLink 
+                                    to={{
+                                        pathname: '/new-post',
+                                        hash: '#submit',
+                                        search: '?quick-submit=true'
+                                    }}>
                                     New Post
                                 </NavLink>
                             </li>
@@ -33,9 +40,10 @@ class Blog extends Component {
                     </nav>
                 </header>
                 <Switch>
-                    {/* <Route path="/home" exact render={() => <h1>Home</h1>} /> */}
+                    {this.state.auth ? <Route path="/new-post" exact component={NewPost} /> : null}
                     <Route path="/posts/" component={Posts} />
-                    <Route path="/new-post" exact component={NewPost} />
+                    <Redirect from="/" exact to="/posts" />
+                    <Route render={() => <h1 style={{textAlign: 'center'}}>Resource Not Found</h1>} />
                 </Switch>
             </div>
         );
