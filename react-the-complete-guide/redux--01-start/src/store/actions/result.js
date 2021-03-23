@@ -7,8 +7,12 @@ export const storeResult = result => {
     };
 };
 
+// able to run async here thanks to redux thunk
 export const storeResultAsync = result => {
-    return dispatch => {
+    // getState is provided by redux thunk
+    return (dispatch, getState) => {
+        // const oldCounter = getState().ctr.counter;
+        // console.log(oldCounter);
         setTimeout(() => {
             dispatch(storeResult(result));
         }, 2000);
