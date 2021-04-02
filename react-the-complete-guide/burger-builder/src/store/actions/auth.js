@@ -16,11 +16,12 @@ export const auth = (email, password, isSignup) => {
         const loginURL = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + token;
         axios.post(isSignup ? signupURL : loginURL, authData)
             .then(response => {
-                console.log(response.data);
-                dispatch(authSuccess(response.data));
+                console.log(response);
+                dispatch(authSuccess(response.data.localId, response.data.idToken));
+                dispatch(checkAuthTimeout(response.data.expiresIn));
             })
             .catch(error => {
-                dispatch(authFail(error));
+                dispatch(authFail(error.response.data.error));
             });
     };
 }
@@ -31,10 +32,11 @@ const authStart = () => {
     };
 };
 
-const authSuccess = authData => {
+const authSuccess = (localId, idToken) => {
     return {
-        type: actionTypes.AUTH_SUCCESS,
-        authData: authData
+        type: actionTypes.AUTH_SUCCESS,        
+        localId: localId,
+        idToken: idToken
     };
 };
 
@@ -44,3 +46,17 @@ const authFail = error => {
         error: error
     };
 };
+
+const checkAuthTimeout = expirationTime => {
+    return dispatch => {
+        setTimeout(() => {
+            dispatch(logout());
+        }, expirationTime * 1000);
+    };
+};
+
+export const logout = () => {
+    return {
+        type: actionTypes.AUTH_LOGOUT
+    };
+}
