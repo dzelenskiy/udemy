@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
@@ -40,7 +41,7 @@ class Auth extends React.Component {
                 touched: false
             }
         },
-        isSignup: true
+        isSignup: false
     }
 
     checkValidity(value, rules) {
@@ -126,7 +127,7 @@ class Auth extends React.Component {
             );
         }
 
-        return(
+        let authDiv = 
             <div className={classes.Auth}>
                 {errorMessage}
                 <form onSubmit={this.submitHandler}>
@@ -136,15 +137,21 @@ class Auth extends React.Component {
                 <Button btnType="Danger" clicked={this.switchAuthModeHandler}>
                     Switch to {this.state.isSignup ? 'Login' : 'Signup'}
                 </Button>
-            </div>
-        );
+            </div>;
+            
+        if(this.props.isAuth) {
+            authDiv = <Redirect to="/" />
+        }
+
+        return authDiv;
     }
 }
 
 const mapStateToProps = state => {
     return {
         loading: state.auth.loading,
-        error: state.auth.error
+        error: state.auth.error,
+        isAuth: state.auth.token !== null
     };
 };
 
