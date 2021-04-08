@@ -133,14 +133,15 @@ class Auth extends React.Component {
             );
         }
 
-        // let redirect = null;       
-        // if(this.props.isAuth) {
-        //     redirect = <Redirect to={this.props.authRedirectPath} />
-        // }
+        let redirect = null;    
+           
+        if(this.props.isAuth) {
+            redirect = <Redirect to={this.props.authRedirectPath} />
+        }
 
         return (          
             <div className={classes.Auth}>
-                {/* {redirect} */}
+                {redirect}
                 {errorMessage}
                 <form onSubmit={this.submitHandler}>
                     {form}

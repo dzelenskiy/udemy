@@ -30,7 +30,7 @@ class Layout extends React.Component {
                 <SideDrawer 
                     open={this.state.showSideDrawer}
                     closed={this.sideDrawerClosedHandler}
-                    isAuth={this.props.isAuthenticated} />
+                    isAuth={this.props.isAuth} />
                 <main className={classes.Content}>
                     {this.props.children}
                 </main>
