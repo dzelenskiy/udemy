@@ -8,6 +8,7 @@ import Input from '../../../components/UI/Input/Input';
 import axios from '../../../axios-orders';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../../store/actions/index';
+import { updateObject, checkValidity } from '../../../shared/utility';
 
 class ContactData extends React.Component {
 
@@ -21,7 +22,9 @@ class ContactData extends React.Component {
                 },
                 value: '',
                 validation: {
-                    required: true
+                    required: true,
+                    minLength: 2,
+                    maxLength: 30                    
                 },
                 valid: false,
                 touched: false
@@ -48,6 +51,7 @@ class ContactData extends React.Component {
                 value: '',
                 validation: {
                     required: true,
+                    isNumeric: true,
                     minLength: 5,
                     maxLength: 5
                 },
@@ -75,7 +79,8 @@ class ContactData extends React.Component {
                 },
                 value: '',
                 validation: {
-                    required: true
+                    required: true,
+                    isEmail: true
                 },
                 valid: false,
                 touched: false
@@ -104,40 +109,21 @@ class ContactData extends React.Component {
         }
         const order = {
             ingredients: this.props.ingredients,
-            price: this.props.price,
+            price: this.props.price.toFixed(2),
             orderData: formData,
             userId: this.props.userId
         }
         this.props.onOrderBurger(order, this.props.userToken);
     }
 
-    checkValidity(value, rules) {
-        let isValid = true;
-        if(rules) {
-            if(rules.required) {
-                isValid = value.trim() !== '';
-            }
-            if(isValid && rules.minLength) {
-                isValid = value.length >= rules.minLength;
-            }
-            if(isValid && rules.maxLength) {
-                isValid = value.length <= rules.maxLength;
-            }
-        }
-        return isValid;
-    }
-
     inputChangedHandler = (event, inputIdentifier) => {
-        const updatedOrderForm = {
-            ...this.state.orderForm
+        const updatedFormElementProps = {
+            value: event.target.value,
+            valid: checkValidity(event.target.value, this.state.orderForm[inputIdentifier].validation),
+            touched: true
         };
-        const updatedFormElement = {
-            ...updatedOrderForm[inputIdentifier]
-        };
-        updatedFormElement.value = event.target.value;
-        updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
-        updatedFormElement.touched = true;
-        updatedOrderForm[inputIdentifier] = updatedFormElement;
+        const updatedFormElement = updateObject(this.state.orderForm[inputIdentifier], updatedFormElementProps);
+        const updatedOrderForm = updateObject(this.state.orderForm, {[inputIdentifier]: updatedFormElement});
         
         let formIsValid = true;
         for(let inputIdentifier in updatedOrderForm) {

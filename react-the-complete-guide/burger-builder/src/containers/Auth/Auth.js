@@ -7,6 +7,7 @@ import Button from '../../components/UI/Button/Button';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import classes from './Auth.module.css';
 import * as actions from '../../store/actions/index';
+import { updateObject, checkValidity } from '../../shared/utility';
 
 class Auth extends React.Component {
 
@@ -42,42 +43,16 @@ class Auth extends React.Component {
             }
         },
         isSignup: false
-    }
-
-    checkValidity(value, rules) {
-        let isValid = true;
-        if(rules) {
-            if(rules.required) {
-                isValid = value.trim() !== '';
-            }
-            if(isValid && rules.minLength) {
-                isValid = value.length >= rules.minLength;
-            }
-            if(isValid && rules.maxLength) {
-                isValid = value.length <= rules.maxLength;
-            }
-            if(isValid && rules.isNumeric) {
-                const pattern = /^\d+$/; 
-                isValid = pattern.test(value);
-            }
-            if(isValid && rules.isEmail) {
-                const pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-                isValid = pattern.test(value);
-            }
-        }
-        return isValid;
     }  
     
     inputChangedHandler = (event, controlName) => {
-        const updatedControls = {
-            ...this.state.controls,
-            [controlName]: {
-                ...this.state.controls[controlName],
-                value: event.target.value,
-                valid: this.checkValidity(event.target.value, this.state.controls[controlName].validation),
-                touched: true
-            }
-        };
+        const updatedControlProps = {
+            value: event.target.value,
+            valid: checkValidity(event.target.value, this.state.controls[controlName].validation),
+            touched: true            
+        }
+        const updatedControl = updateObject(this.state.controls[controlName], updatedControlProps);
+        const updatedControls = updateObject(this.state.controls, {[controlName]: updatedControl});
         this.setState({controls: updatedControls});
     }
 
@@ -134,7 +109,7 @@ class Auth extends React.Component {
         }
 
         let redirect = null;    
-           
+
         if(this.props.isAuth) {
             redirect = <Redirect to={this.props.authRedirectPath} />
         }
