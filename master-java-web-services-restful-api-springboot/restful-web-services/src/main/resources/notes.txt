@@ -1,0 +1,25 @@
+Option 1 : Spring Boot Release >= 2.2.0
+
+import org.springframework.hateoas.EntityModel;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
+EntityModel<User> model = new EntityModel<>(user);
+WebMvcLinkBuilder linkTo = linkTo(methodOn(this.getClass()).retrieveAllUsers());
+model.add(linkTo.withRel("all-users"));
+
+
+Option 2: Older versions
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
+ 
+Resource<User> resource = new Resource<User>(user);
+ControllerLinkBuilder linkTo = linkTo(methodOn(this.getClass()).retrieveAllUsers());
+resource.add(linkTo.withRel("all-users"));
+return resource;
+
+
+generated temp password:
+1c2ecfe7-290c-4e4b-a143-1a166d4f52d1

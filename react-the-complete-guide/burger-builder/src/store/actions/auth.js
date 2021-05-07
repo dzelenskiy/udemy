@@ -10,14 +10,14 @@ export const auth = (email, password, isSignup) => {
             password: password,
             returnSecureToken: true
         }
-        const token = 'AIzaSyBNw5PEP8ixKXdrfY_pkaCIPAdZGMfQWQ4'
+        const token = process.env.REACT_APP_GOOGLE_FIREBASE_SIGNUP_API_KEY;
         const signupURL = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + token;
         const loginURL = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + token;
         axios.post(isSignup ? signupURL : loginURL, authData)
             .then(response => {
                 const expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000);
                 localStorage.setItem('userId', response.data.localId);
-                localStorage.setItem('token', response.data.idToken);              
+                localStorage.setItem('token', response.data.idToken);
                 localStorage.setItem('expirationDate', expirationDate);
                 dispatch(authSuccess(response.data.localId, response.data.idToken));
                 dispatch(checkAuthTimeout(response.data.expiresIn));
